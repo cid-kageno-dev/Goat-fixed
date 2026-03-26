@@ -1,6 +1,6 @@
 language = "nodejs"
 run = "npm start"
-modules = ["nodejs-20"]
+modules = ["web", "nodejs-20"]
 
 [workflows]
 runButton = "Project"
